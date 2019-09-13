@@ -1,7 +1,7 @@
 <%= form_for @user do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name%>
-  <%= f.fields_for @addresses do |a|%>
+  <%= fields_for :addresses, @user.addresses.new do |a| %>
     <%= a.label :address %>
     <%= a.text_field :address %>
     <%= a.label :city %>
@@ -11,7 +11,7 @@
     <%= a.label :zip %>
     <%= a.text_field :zip %>
     <%= a.label :address_nickname %>
-    <%= a.text_field :address_nickname%>
+    <%= a.text_field :address_nickname, value: 'Home'%>
   <% end %>
   <%= f.label :email %>
   <%= f.text_field :email %>
