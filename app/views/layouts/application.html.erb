@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Monster Shop</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+    <nav class = "topnav">
+      <section class="topnav-index">
+        <%= link_to "All Merchants", "/merchants"%>
+        <%= link_to "All Items", "/items"%>
+        <% if current_admin? %>
+          <%= link_to 'Admin Dashboard', '/admin' %>
+          <%= link_to 'Users', '/admin/users' %>
+        <% else %>
+          <%= link_to "Cart: #{cart.total_items}", "/cart" %>
+        <% end %>
+        <% if current_user %>
+          <%= link_to "Logout", "/logout", method: :delete %>
+          <%= link_to "Profile", "/profile" %>
+          <p id="logged-in-navbar">Logged in as <%= current_user.name %></p>
+          <% if current_merchant_admin? || current_merchant_employee? %>
+            <%= link_to 'Merchant Dashboard', '/merchant' %>
+          <% end %>
+        <% else %>
+        <%= link_to 'Login', '/login' %>
+        </section>
+        <section>
+          <%= link_to 'Register', '/register' %>
+        <% end %>
+      </section>
+      <section id="home-pic">
+        <%= link_to "/" do %>
+          <section class="home-link">
+            <p>I wanna go home</p>
+            <img src="https://www.davidbrassrarebooks.com/pictures/03815_8.jpg?v=1478033010", id: "home-img">
+          </section>
+        <% end %>
+      </section>
+    </nav>
+    <% flash.each do |name, msg| %>
+      <div class= "<%=name%>-flash">
+        <p><%= msg %></p>
+      </div>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>
