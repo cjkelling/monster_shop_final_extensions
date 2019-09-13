@@ -1,19 +1,9 @@
 <%= form_for @user do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name%>
-  <%= f.fields_for :addresses do |a| %>
-    <%= a.label :address_nickname %>
-    <%= a.text_field :address_nickname %>
-    <%= a.label :address %>
-    <%= a.text_field :address %>
-    <%= a.label :city %>
-    <%= a.text_field :city %>
-    <%= a.label :state %>
-    <%= a.text_field :state %>
-    <%= a.label :zip %>
-    <%= a.text_field :zip %>
-  <% end %>
+
   <%= f.label :email %>
   <%= f.text_field :email %>
+
   <%= f.submit %>
 <% end %>

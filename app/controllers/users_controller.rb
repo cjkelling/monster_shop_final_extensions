@@ -4,15 +4,15 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @user.addresses.new
   end
 
   def create
     @user = User.create(user_params)
     if @user.save
+      @user.addresses.create(address_params)
       session[:user_id] = @user.id
       flash[:success] = "Welcome, #{@user.name}! You are now registered and logged in."
-      redirect_to '/profile'
+      redirect_to "/users/#{@user.id}"
     else
       flash[:error] = @user.errors.full_messages.uniq.to_sentence
       render :new
@@ -31,18 +31,20 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
-  def password_edit; end
+  def password_edit
+    @user = current_user
+  end
 
   def update
     @user.update(user_params)
     if user_params.include?(:password)
-      redirect_to '/profile'
+      redirect_to "/users/#{@user.id}"
       flash[:success] = 'Your password has been updated'
     elsif @user.save
-      redirect_to '/profile'
+      redirect_to "/users/#{@user.id}"
       flash[:success] = 'Your profile has been updated'
     else
-      redirect_to '/profile/edit'
+      redirect_to "/users/#{@user.id}/edit"
       flash[:error] = @user.errors.full_messages.uniq
     end
   end
@@ -54,7 +56,11 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, addresses_attributes: %i[address city state zip address_nickname])
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def address_params
+    params.permit(:address, :city, :state, :zip, :address_nickname)
   end
 
   def cur_user
