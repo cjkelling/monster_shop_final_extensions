@@ -1,14 +1,23 @@
-
-<!-- < % # change to form_for %> -->
-
-<%= form_tag '/users', method: :post do %>
-  <%= text_field_tag :name, @user.name, placeholder: "Name"%>
-  <%= text_field_tag :address, @user.address, placeholder: "Address"%>
-  <%= text_field_tag :city, @user.city, placeholder: "City"%>
-  <%= text_field_tag :state, @user.state, placeholder: "State"%>
-  <%= text_field_tag :zip, @user.zip, placeholder: "Zip"%>
-  <%= text_field_tag :email, nil, placeholder: "Email"%>
-  <%= password_field_tag :password, nil, placeholder: "Password"%>
-  <%= password_field_tag :password_confirmation, nil, placeholder: "Confirm Password"%>
-  <%= submit_tag "Submit" %>
-<%end %>
+<%= form_for @user do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name%>
+  <%= f.fields_for @addresses do |a|%>
+    <%= a.label :address %>
+    <%= a.text_field :address %>
+    <%= a.label :city %>
+    <%= a.text_field :city %>
+    <%= a.label :state %>
+    <%= a.text_field :state %>
+    <%= a.label :zip %>
+    <%= a.text_field :zip %>
+    <%= a.label :address_nickname %>
+    <%= a.text_field :address_nickname%>
+  <% end %>
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+  <%= f.label :password %>
+  <%= f.text_field :password %>
+  <%= f.label :password_confirmation %>
+  <%= f.text_field :password_confirmation %>
+  <%= f.submit %>
+<% end %>

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'User Registration' do
   describe 'when user clicks on register' do
-    it 'they can fill out a form to register new user' do
+    xit 'they can fill out a form to register new user' do
 
       visit '/items'
 
@@ -36,7 +36,7 @@ describe 'User Registration' do
       expect(page).to have_content("Welcome, #{name}")
     end
 
-    it 'they have to fill out entire form' do
+    xit 'they have to fill out entire form' do
 
       visit '/register'
 
@@ -55,7 +55,7 @@ describe 'User Registration' do
       expect(current_path).to eq("/users")
     end
 
-    it 'they have to use unique email address' do
+    xit 'they have to use unique email address' do
 
       user_1 = User.create(  name: "alec",
         address: "234 Main",

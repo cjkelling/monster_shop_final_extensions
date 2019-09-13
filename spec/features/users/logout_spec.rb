@@ -1,6 +1,6 @@
 require 'rails_helper'
 describe "When a user logs out" do
-  it "they are redirected to the home page, see a flash message indicating they are logged out, and their shopping cart has been cleared" do
+  xit "they are redirected to the home page, see a flash message indicating they are logged out, and their shopping cart has been cleared" do
     visit '/items'
 
     within 'nav' do

@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "User can access link to their profile" do
   describe "As a user" do
-    it "I can see a link on navbar to go to my profile and to logout and I do not see login or register links" do
+    xit "I can see a link on navbar to go to my profile and to logout and I do not see login or register links" do
       visit '/items'
 
       within 'nav' do
