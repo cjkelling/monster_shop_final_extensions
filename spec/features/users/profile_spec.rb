@@ -8,7 +8,7 @@ RSpec.describe "User Profile" do
       @user_2 = User.create(name: 'Christopher', address: '123 Oak Ave', city: 'Denver', state: 'CO', zip: 80021, email: 'ck@email.com', password: 'p@ssw0rd', role: 0)
     end
 
-    it 'I visit my profile page and see all my profile data except my password. I see a link to edit my profile data.' do
+    xit 'I visit my profile page and see all my profile data except my password. I see a link to edit my profile data.' do
       visit '/profile'
 
       expect(page).to have_content(@user.name)
@@ -21,7 +21,7 @@ RSpec.describe "User Profile" do
       expect(page).to have_link('Edit Profile')
     end
 
-    it 'I click the Edit Profile link. I see a prepopulate form with my current info. I submit the form and am returned to my profile page with my new info.' do
+    xit 'I click the Edit Profile link. I see a prepopulate form with my current info. I submit the form and am returned to my profile page with my new info.' do
       visit '/profile'
       click_link 'Edit Profile'
       expect(current_path).to eq('/profile/edit')
@@ -59,7 +59,7 @@ RSpec.describe "User Profile" do
       expect(page).to have_content(email)
     end
 
-    it 'I see a link to edit my password. I fill out the form and am returned to my profile. I see a flash message confirming the update.' do
+    xit 'I see a link to edit my password. I fill out the form and am returned to my profile. I see a flash message confirming the update.' do
       visit '/profile'
       click_link 'Edit Password'
 
@@ -77,7 +77,7 @@ RSpec.describe "User Profile" do
       expect(page).to have_content('Your password has been updated')
     end
 
-    it 'I must use a unique email address when updating my profile' do
+    xit 'I must use a unique email address when updating my profile' do
       visit '/profile/edit'
 
       email = 'ck@email.com'
