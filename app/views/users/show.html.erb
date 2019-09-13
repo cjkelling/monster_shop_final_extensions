@@ -1,9 +1,12 @@
 <section class="header">
 <br><%= @user.name %>
-<br><%= @user.address %>
-<br><%= @user.city %>
-<br><%= @user.state %>
-<br><%= @user.zip %>
+<br><% @user.addresses.each do |a| %>
+  <br><%= a.address_nickname %>
+  <br><%= a.address %>
+  <br><%= a.city %>
+  <br><%= a.state %>
+  <br><%= a.zip %>
+<br><% end %>
 <br><%= @user.email %>
 </section>
   <section class="text">
