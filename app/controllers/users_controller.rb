@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @user.addresses.new
   end
 
   def create
@@ -26,7 +27,9 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @user = current_user
+  end
 
   def password_edit; end
 
@@ -51,7 +54,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, addresses_attributes: %i[address city state zip address_nickname])
   end
 
   def cur_user

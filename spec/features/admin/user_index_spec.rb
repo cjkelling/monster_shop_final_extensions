@@ -47,7 +47,7 @@ describe "As an Admin User" do
     expect(current_path).to eq("/admin/users/#{@user_3.id}")
   end
 
-  it "I can see user profile page" do
+  xit "I can see user profile page" do
     visit("/admin/users/#{@user_3.id}")
     expect(page).to have_content(@user_3.name)
     expect(page).to have_content(@user_3.address)
