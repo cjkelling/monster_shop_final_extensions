@@ -12,15 +12,15 @@ class ApplicationController < ActionController::Base
   end
 
   def current_admin?
-    current_user && current_user.admin?
+    current_user&.admin?
   end
 
   def current_merchant_employee?
-    current_user && current_user.merchant_employee?
+    current_user&.merchant_employee?
   end
 
   def current_merchant_admin?
-    current_user && current_user.merchant_admin?
+    current_user&.merchant_admin?
   end
 
   def cart

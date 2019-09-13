@@ -1,4 +1,4 @@
-class Merchant <ApplicationRecord
+class Merchant < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :item_orders, through: :items
   has_many :users
@@ -8,8 +8,7 @@ class Merchant <ApplicationRecord
                         :state,
                         :zip
 
-  validates_inclusion_of :enabled?, :in => [true, false]
-
+  validates_inclusion_of :enabled?, in: [true, false]
 
   def no_orders?
     item_orders.empty?
@@ -28,11 +27,11 @@ class Merchant <ApplicationRecord
   end
 
   def get_individual_orders
-    item_orders.group(:order_id).select("item_orders.order_id, sum(quantity) as total_quantity, sum(quantity * item_orders.price) as total_subtotal").where(status: 0)
+    item_orders.group(:order_id).select('item_orders.order_id, sum(quantity) as total_quantity, sum(quantity * item_orders.price) as total_subtotal').where(status: 0)
   end
 
   def toggle
-    self.update(enabled?: !enabled?)
+    update(enabled?: !enabled?)
   end
 
   def activate_items
@@ -42,5 +41,4 @@ class Merchant <ApplicationRecord
   def deactivate_items
     items.update(active?: false)
   end
-
 end

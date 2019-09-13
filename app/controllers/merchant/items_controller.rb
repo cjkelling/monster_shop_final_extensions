@@ -1,5 +1,5 @@
 class Merchant::ItemsController < Merchant::BaseController
-  before_action :set_item, only: [:edit, :update, :destroy]
+  before_action :set_item, only: %i[edit update destroy]
   def index
     @merchant = Merchant.find(current_user.merchant_id)
   end
@@ -46,11 +46,11 @@ class Merchant::ItemsController < Merchant::BaseController
   def create
     @merchant = Merchant.find(current_user.merchant_id)
     @item = @merchant.items.create(item_params)
-    if @item.image == ""
-      @item.image = "https://thumbs.dreamstime.com/b/coming-soon-neon-sign-brick-wall-background-87865865.jpg"
+    if @item.image == ''
+      @item.image = 'https://thumbs.dreamstime.com/b/coming-soon-neon-sign-brick-wall-background-87865865.jpg'
     end
     if @item.save
-      redirect_to "/merchant/items"
+      redirect_to '/merchant/items'
       flash[:success] = "#{@item.name} has been created"
     else
       flash[:error] = @item.errors.full_messages.to_sentence

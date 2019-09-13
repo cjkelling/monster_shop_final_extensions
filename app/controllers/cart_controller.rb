@@ -6,7 +6,7 @@ class CartController < ApplicationController
     if item.active?
       cart.add_item(item.id.to_s)
       flash[:success] = "#{item.name} was successfully added to your cart"
-      redirect_to "/items"
+      redirect_to '/items'
     else
       flash[:error] = "You cannot add  #{item.name} to your cart because it is inactive"
       redirect_to "/items/#{item.id}"
@@ -28,13 +28,13 @@ class CartController < ApplicationController
   end
 
   def increment_decrement
-    if params[:increment_decrement] == "increment"
+    if params[:increment_decrement] == 'increment'
       cart.add_quantity(params[:item_id]) unless cart.limit_reached?(params[:item_id])
-    elsif params[:increment_decrement] == "decrement"
+    elsif params[:increment_decrement] == 'decrement'
       cart.subtract_quantity(params[:item_id])
       return remove_item if cart.quantity_zero?(params[:item_id])
     end
-    redirect_to "/cart"
+    redirect_to '/cart'
   end
 
   private

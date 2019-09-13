@@ -1,4 +1,4 @@
- class Item <ApplicationRecord
+class Item < ApplicationRecord
   belongs_to :merchant
   has_many :reviews, dependent: :destroy
   has_many :item_orders
@@ -32,23 +32,23 @@
 
   def subtract(num)
     self.inventory -= num
-    self.save
+    save
   end
 
   def toggle
-    self.update(active?: !active?)
+    update(active?: !active?)
   end
 
   def self.most_popular_items
-    joins(:item_orders).where(active?: true).group(:id).select("items.*, sum(quantity) as quantity_purchased").order("quantity_purchased DESC").limit(5)
+    joins(:item_orders).where(active?: true).group(:id).select('items.*, sum(quantity) as quantity_purchased').order('quantity_purchased DESC').limit(5)
   end
 
   def self.least_popular_items
-    joins(:item_orders).where(active?: true).group(:id).select("items.*, sum(quantity) as quantity_purchased").order("quantity_purchased").limit(5)
+    joins(:item_orders).where(active?: true).group(:id).select('items.*, sum(quantity) as quantity_purchased').order('quantity_purchased').limit(5)
   end
 
   def show_default_image
-     self.image = "https://thumbs.dreamstime.com/b/coming-soon-neon-sign-brick-wall-background-87865865.jpg"
-     self.save
+    self.image = 'https://thumbs.dreamstime.com/b/coming-soon-neon-sign-brick-wall-background-87865865.jpg'
+    save
   end
 end

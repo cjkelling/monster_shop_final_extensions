@@ -5,9 +5,7 @@ class Merchant::ItemordersController < Merchant::BaseController
     item = Item.find(@item_order.item_id)
     item.subtract(@item_order.quantity)
     order = Order.find(@item_order.order_id)
-    if order.all_item_orders_fulfilled?
-      order.packaged
-    end
+    order.packaged if order.all_item_orders_fulfilled?
     redirect_to "/merchant/orders/#{@item_order.order_id}"
     flash[:success] = "#{item.name} is now fulfilled"
   end

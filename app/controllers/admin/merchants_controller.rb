@@ -1,5 +1,4 @@
 class Admin::MerchantsController < Admin::BaseController
-
   def show
     @merchant = Merchant.find(params[:merchant_id])
   end
@@ -14,7 +13,6 @@ class Admin::MerchantsController < Admin::BaseController
       merchant.deactivate_items
       flash[:disable] = "#{merchant.name} disabled"
     end
-    redirect_to "/merchants"
+    redirect_to '/merchants'
   end
-
 end
