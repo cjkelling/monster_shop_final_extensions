@@ -10,7 +10,7 @@
   <% end %>
   <section class="my-orders-link">
     <% unless @user.no_orders? %>
-      <%= link_to 'My Orders', '/profile/orders' %>
+      <%= link_to 'My Orders', "/users/#{@user.id}/orders" %>
     <% end %>
   </section>
 </section>
@@ -25,9 +25,9 @@
     <br><%= a.state %>
     <br><%= a.zip %>
     <br>
-    <br> <%=link_to 'Edit Address', "/addresses/#{a.id}/edit" %>
-    <br> <%=link_to 'Delete Address', "/addresses/#{a.id}", method: :delete %>
+    <br> <%=link_to 'Edit Address', "/user/addresses/#{a.id}/edit"%>
+    <br> <%=link_to 'Delete Address', "/user/addresses/#{a.id}", method: :delete %>
     </section>
   <br><% end %>
-  <br> <%=link_to 'Add New Address', "/addresses/new" %> </br>
+  <br> <%=link_to 'Add New Address', "/user/addresses/new" %> </br>
 </section>

@@ -1,13 +1,7 @@
 Rails.application.routes.draw do
   root to: 'items#index'
 
-  get '/merchants', to: 'merchants#index'
-  get '/merchants/new', to: 'merchants#new'
-  get '/merchants/:id', to: 'merchants#show'
-  post '/merchants', to: 'merchants#create'
-  get '/merchants/:id/edit', to: 'merchants#edit'
-  patch '/merchants/:id', to: 'merchants#update'
-  delete '/merchants/:id', to: 'merchants#destroy'
+  resources :merchants
 
   get '/items', to: 'items#index'
   get '/items/:id', to: 'items#show'
@@ -31,19 +25,9 @@ Rails.application.routes.draw do
   delete '/cart/:item_id', to: 'cart#remove_item'
   patch '/cart/:item_id/:increment_decrement', to: 'cart#increment_decrement'
 
-  get '/orders/new', to: 'orders#new'
-  post '/orders', to: 'orders#create'
-  get '/orders/:order_id', to: 'orders#show'
-  patch '/orders/:order_id', to: 'orders#cancel'
-  get '/profile/orders/:order_id', to: 'orders#show'
-  get '/profile/orders', to: 'orders#index'
-
-
-  resources :users, only: [:create, :edit, :update, :show, :destroy]
-  resources :addresses
-
-  get '/users/:id/password_edit', to: 'users#password_edit'
+  resources :users, only: [:create, :edit, :update, :show]
   get '/register', to: 'users#new'
+  get '/users/:id/password_edit', to: 'users#password_edit'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
@@ -52,7 +36,6 @@ Rails.application.routes.draw do
   namespace :merchant do
     get '/', to: 'dashboard#index'
     patch '/items/:item_id', to: 'items#toggle'
-    get '/orders/:order_id', to: 'orders#show'
     resources :items
     patch '/itemorders/:id/fulfill', to: 'itemorders#fulfill'
   end
@@ -63,6 +46,17 @@ Rails.application.routes.draw do
     get '/users', to: 'users#index'
     patch '/merchants/:merchant_id', to: 'merchants#toggle'
     get '/merchants/:merchant_id', to: 'merchants#show'
+    get '/users/:user_id', to: 'users#show'
   end
-  get '/admin/users/:user_id', to: 'users#show'
+
+  namespace :user do
+    resources :addresses
+    get '/orders/new', to: 'orders#new'
+    post '/orders', to: 'orders#create'
+    get '/orders', to: 'orders#index'
+    get '/orders/:id', to: 'orders#show'
+    get '/orders/:id/edit', to: 'orders#edit'
+    patch '/orders/:id', to: 'orders#update'
+    delete '/orders/:id', to: 'orders#cancel'
+  end
 end

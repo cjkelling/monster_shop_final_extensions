@@ -12,9 +12,9 @@
     <h2>Average Price of Items: <%=number_to_currency( @merchant.average_item_price)%></h2>
     <section class = "distinct-cities">
       <h2>Cities that order these items:</h2>
-      <% @merchant.distinct_cities.each do |city| %>
-        <p><%= city %></p>
-      <% end %>
+      <!-- < % @merchant.distinct_cities.each do |city| %>
+        <p>< %= city %></p>
+      < % end %> -->
     <% end %>
   </section>
 </section>

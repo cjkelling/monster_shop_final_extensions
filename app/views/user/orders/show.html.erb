@@ -2,14 +2,14 @@
   <h1 align = "center">Shipping Info</h1>
   <table>
     <tr>
-      <th>Name</th>
+      <th>Address Nickname</th>
       <th>Address</th>
       <th>City</th>
       <th>State</th>
       <th>Zip</th>
     </tr>
     <tr>
-      <td><p><%= @order.name %> </p></td>
+      <td><p><%= @order.address_nickname %> </p></td>
       <td><p><%= @order.address %> </p></td>
       <td><p><%= @order.city %> </p></td>
       <td><p><%= @order.state %> </p></td>
@@ -19,7 +19,7 @@
 </section>
 
   <section id="order-info-<%=@order.id%>">
-    <h2> <%=link_to "Order ID: #{@order.id}", "/profile/orders/#{@order.id}" %> </h2>
+    <h2> <%=link_to "Order ID: #{@order.id}", "/orders/#{@order.id}" %> </h2>
     <p>Date created: <%= @order.created_at.strftime("%d %b %y") %></p>
     <p>Last update: <%= @order.updated_at.strftime("%d %b %y") %></p>
     <p>Order status: <%= @order.status%></p>
