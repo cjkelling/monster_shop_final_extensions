@@ -5,6 +5,7 @@ class AddressesController < ApplicationController
 
   def create
     @address = current_user.addresses.create(address_params)
+    redirect_to "/users/#{current_user.id}"
   end
 
   def edit
@@ -17,7 +18,11 @@ class AddressesController < ApplicationController
     redirect_to "/users/#{current_user.id}"
   end
 
-  def destroy; end
+  def destroy
+    address = Address.find(params[:id])
+    address.destroy
+    redirect_to "/users/#{current_user.id}"
+  end
 
   private
 
