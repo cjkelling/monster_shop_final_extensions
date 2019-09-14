@@ -18,6 +18,7 @@
 <section class='addresses'>
   <h3><%= 'Saved Addresses:' %></h3>
   <% @user.addresses.each do |a| %>
+    <section id= 'address-<%=a.id%>'>
     <h3><%= a.address_nickname %></h3>
     <%= a.address %>
     <br><%= a.city %>
@@ -26,6 +27,7 @@
     <br>
     <br> <%=link_to 'Edit Address', "/addresses/#{a.id}/edit" %>
     <br> <%=link_to 'Delete Address', "/addresses/#{a.id}", method: :delete %>
+    </section>
   <br><% end %>
   <br> <%=link_to 'Add New Address', "/addresses/new" %> </br>
 </section>

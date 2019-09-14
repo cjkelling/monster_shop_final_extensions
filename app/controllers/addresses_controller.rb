@@ -14,14 +14,24 @@ class AddressesController < ApplicationController
 
   def update
     @address = Address.find(params[:id])
-    @address.update(address_params)
-    redirect_to "/users/#{current_user.id}"
+    # if !@address.ship
+      @address.update(address_params)
+      redirect_to "/users/#{current_user.id}"
+    # else
+      # flash[:notice] = 'Address is being shipped to. It cannot be updated at this time.'
+      # redirect_to "/users/#{current_user.id}"
+    # end
   end
 
   def destroy
-    address = Address.find(params[:id])
-    address.destroy
-    redirect_to "/users/#{current_user.id}"
+    @address = Address.find(params[:id])
+    # if !@address.ship
+      @address.destroy
+      redirect_to "/users/#{current_user.id}"
+    # else
+    #   flash[:notice] = 'Address is being shipped to. It cannot be updated at this time.'
+    #   redirect_to "/users/#{current_user.id}"
+    # end
   end
 
   private
