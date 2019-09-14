@@ -1,23 +1,30 @@
 <%= form_for @user do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name%>
-  <%= f.fields_for :addresses do |a| %>
-    <%= a.label :address_nickname %>
-    <%= a.text_field :address_nickname, value: 'Home'%>
-    <%= a.label :address %>
-    <%= a.text_field :address %>
-    <%= a.label :city %>
-    <%= a.text_field :city %>
-    <%= a.label :state %>
-    <%= a.text_field :state %>
-    <%= a.label :zip %>
-    <%= a.text_field :zip %>
-  <% end %>
+
+  <%= label_tag :address_nickname %>
+  <%= text_field_tag :address_nickname, 'Home'%>
+
+  <%= label_tag :address %>
+  <%= text_field_tag :address %>
+
+  <%= label_tag :city %>
+  <%= text_field_tag :city %>
+
+  <%= label_tag :state %>
+  <%= text_field_tag :state %>
+
+  <%= label_tag :zip %>
+  <%= text_field_tag :zip %>
+
   <%= f.label :email %>
   <%= f.text_field :email %>
+
   <%= f.label :password %>
   <%= f.text_field :password %>
+
   <%= f.label :password_confirmation %>
   <%= f.text_field :password_confirmation %>
+
   <%= f.submit %>
 <% end %>

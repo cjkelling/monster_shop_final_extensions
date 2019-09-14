@@ -1,9 +1,18 @@
 Rails.application.routes.draw do
   root to: 'items#index'
 
-  resources :merchants
-  resources :items, only: [:index, :show, :edit, :update]
+  get '/merchants', to: 'merchants#index'
+  get '/merchants/new', to: 'merchants#new'
+  get '/merchants/:id', to: 'merchants#show'
+  post '/merchants', to: 'merchants#create'
+  get '/merchants/:id/edit', to: 'merchants#edit'
+  patch '/merchants/:id', to: 'merchants#update'
+  delete '/merchants/:id', to: 'merchants#destroy'
 
+  get '/items', to: 'items#index'
+  get '/items/:id', to: 'items#show'
+  get '/items/:id/edit', to: 'items#edit'
+  patch '/items/:id', to: 'items#update'
   get '/merchants/:merchant_id/items', to: 'items#index'
   get '/merchants/:merchant_id/items/new', to: 'items#new'
   post '/merchants/:merchant_id/items', to: 'items#create'
@@ -29,20 +38,12 @@ Rails.application.routes.draw do
   get '/profile/orders/:order_id', to: 'orders#show'
   get '/profile/orders', to: 'orders#index'
 
-  resources :users
-    match '/register', to: 'users#new', via: :get
-    match '/users', to: 'users#create', via: :post
-    match '/profile', to: 'users#show', via: :get
-    match '/profile/edit', to: 'users#edit', via: :get
-    match '/profile/password_edit', to: 'users#password_edit', via: :get
-    match '/profile', to: 'users#update', via: :patch
 
-  # get '/register', to: 'users#new'
-  # post '/users', to: 'users#create'
-  # get '/profile', to: 'users#show'
-  # get '/profile/edit', to: 'users#edit'
-  # get '/profile/password_edit', to: 'users#password_edit'
-  # patch '/profile', to: 'users#update'
+  resources :users, only: [:create, :edit, :update, :show, :destroy]
+  resources :addresses
+
+  get '/users/:id/password_edit', to: 'users#password_edit'
+  get '/register', to: 'users#new'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'

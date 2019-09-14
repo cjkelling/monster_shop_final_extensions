@@ -21,7 +21,7 @@
         <% end %>
         <% if current_user %>
           <%= link_to "Logout", "/logout", method: :delete %>
-          <%= link_to "Profile", "/profile" %>
+          <%= link_to "Profile", "/users/#{current_user.id}" %>
           <p id="logged-in-navbar">Logged in as <%= current_user.name %></p>
           <% if current_merchant_admin? || current_merchant_employee? %>
             <%= link_to 'Merchant Dashboard', '/merchant' %>

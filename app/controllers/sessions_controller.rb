@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
     elsif current_admin?
       redirect_to '/admin'
     else
-      redirect_to '/profile'
+      redirect_to "/users/#{current_user.id}"
     end
   end
-  end
+end

@@ -1,22 +1,31 @@
 <section class="header">
-<br><%= @user.name %>
-<br><% @user.addresses.each do |a| %>
-  <br><%= a.address_nickname %>
-  <br><%= a.address %>
-  <br><%= a.city %>
-  <br><%= a.state %>
-  <br><%= a.zip %>
-<br><% end %>
-<br><%= @user.email %>
+  <h2><%= @user.name %></h2>
+  <h4><%= @user.email %></h4>
 </section>
-  <section class="text">
-  <br><% if !current_admin? %>
-    <br><%= link_to 'Edit Profile', '/profile/edit' %>
-    <br><br><%= link_to 'Edit Password', '/profile/password_edit' %>
+
+<section class="text">
+  <% if !current_admin? %>
+    <p></p><%= link_to 'Edit Profile', "/users/#{@user.id}/edit" %></p>
+    <p><%= link_to 'Edit Password', "/users/#{@user.id}/password_edit" %></p>
   <% end %>
   <section class="my-orders-link">
     <% unless @user.no_orders? %>
-      <br><%= link_to 'My Orders', '/profile/orders' %>
+      <%= link_to 'My Orders', '/profile/orders' %>
     <% end %>
   </section>
+</section>
+
+<section class='addresses'>
+  <h3><%= 'Saved Addresses:' %></h3>
+  <% @user.addresses.each do |a| %>
+    <h3><%= a.address_nickname %></h3>
+    <%= a.address %>
+    <br><%= a.city %>
+    <br><%= a.state %>
+    <br><%= a.zip %>
+    <br>
+    <br> <%=link_to 'Edit Address', "/addresses/#{a.id}/edit" %>
+    <br> <%=link_to 'Delete Address', "/addresses/#{a.id}", method: :delete %>
+  <br><% end %>
+  <br> <%=link_to 'Add New Address', "/addresses/new" %> </br>
 </section>
