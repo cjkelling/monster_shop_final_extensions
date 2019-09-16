@@ -10,7 +10,7 @@
   <% end %>
   <section class="my-orders-link">
     <% unless @user.no_orders? %>
-      <%= link_to 'My Orders', '/profile/orders' %>
+      <%= link_to 'My Orders', "/user/orders" %>
     <% end %>
   </section>
 </section>
@@ -18,14 +18,16 @@
 <section class='addresses'>
   <h3><%= 'Saved Addresses:' %></h3>
   <% @user.addresses.each do |a| %>
+    <section id= 'address-<%=a.id%>'>
     <h3><%= a.address_nickname %></h3>
     <%= a.address %>
     <br><%= a.city %>
     <br><%= a.state %>
     <br><%= a.zip %>
     <br>
-    <br> <%=link_to 'Edit Address', "/addresses/#{a.id}/edit" %>
-    <br> <%=link_to 'Delete Address', "/addresses/#{a.id}", method: :delete %>
+    <br> <%=link_to 'Edit Address', "/user/addresses/#{a.id}/edit"%>
+    <br> <%=link_to 'Delete Address', "/user/addresses/#{a.id}", method: :delete %>
+    </section>
   <br><% end %>
-  <br> <%=link_to 'Add New Address', "/addresses/new" %> </br>
+  <br> <%=link_to 'Add New Address', "/user/addresses/new" %> </br>
 </section>

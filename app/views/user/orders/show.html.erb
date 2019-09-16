@@ -2,24 +2,27 @@
   <h1 align = "center">Shipping Info</h1>
   <table>
     <tr>
-      <th>Name</th>
+      <th>Address Nickname</th>
       <th>Address</th>
       <th>City</th>
       <th>State</th>
       <th>Zip</th>
     </tr>
     <tr>
-      <td><p><%= @order.name %> </p></td>
-      <td><p><%= @order.address %> </p></td>
-      <td><p><%= @order.city %> </p></td>
-      <td><p><%= @order.state %> </p></td>
-      <td><p><%= @order.zip %> </p></td>
+      <td><p><%= @order.address.address_nickname %> </p></td>
+      <td><p><%= @order.address.address %> </p></td>
+      <td><p><%= @order.address.city %> </p></td>
+      <td><p><%= @order.address.state %> </p></td>
+      <td><p><%= @order.address.zip %> </p></td>
     </tr>
   </table>
+  <% if (@order.status == "pending") || (@order.status == "packaged")%>
+    <p align = "center"><%=link_to "Edit Order Address", "/user/orders/#{@order.id}/edit", method: :get%></p>
+  <% end %>
 </section>
 
   <section id="order-info-<%=@order.id%>">
-    <h2> <%=link_to "Order ID: #{@order.id}", "/profile/orders/#{@order.id}" %> </h2>
+    <h2> <%=link_to "Order ID: #{@order.id}", "/user/orders/#{@order.id}" %> </h2>
     <p>Date created: <%= @order.created_at.strftime("%d %b %y") %></p>
     <p>Last update: <%= @order.updated_at.strftime("%d %b %y") %></p>
     <p>Order status: <%= @order.status%></p>
@@ -59,7 +62,7 @@
 </section>
 <section id="cancel">
   <% if (@order.status == "pending") || (@order.status == "packaged")%>
-    <%=link_to "Cancel Order", "/orders/#{@order.id}", method: :patch%>
+    <%=link_to "Cancel Order", "/user/orders/#{@order.id}", method: :patch%>
   <% end %>
 </section>
 <section id="datecreated">

@@ -9,7 +9,7 @@
 <h4 class="left-header">Pending Orders: </h4>
 <% @merchant.get_individual_orders.each do |itemorder| %>
   <section id="merchant-dashboard-order-<%=itemorder.order_id%>">
-      Order #<%= link_to("#{itemorder.order_id}", "#{path}/#{itemorder.order_id}") %>
+      Order #<%= link_to("#{itemorder.order_id}", "/merchant/orders/#{itemorder.order_id}") %>
       was created on <%= itemorder.order.created_at.strftime("%d %b %y") %>
       <p>Total Quantity of <%= @merchant.name%> items in this order: <%= itemorder.total_quantity %> </p>
       <p>Grand Total of <%= @merchant.name%> items in this order: <%= number_to_currency(itemorder.total_subtotal) %> </p>
