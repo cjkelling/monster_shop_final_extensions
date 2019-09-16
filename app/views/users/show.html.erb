@@ -10,7 +10,7 @@
   <% end %>
   <section class="my-orders-link">
     <% unless @user.no_orders? %>
-      <%= link_to 'My Orders', "/users/#{@user.id}/orders" %>
+      <%= link_to 'My Orders', "/user/orders" %>
     <% end %>
   </section>
 </section>

@@ -36,8 +36,10 @@ Rails.application.routes.draw do
   namespace :merchant do
     get '/', to: 'dashboard#index'
     patch '/items/:item_id', to: 'items#toggle'
+    get '/orders/:order_id', to: 'orders#show'
     resources :items
     patch '/itemorders/:id/fulfill', to: 'itemorders#fulfill'
+    patch '/itemorders/:id', to: 'itemorders#cancel'
   end
 
   namespace :admin do
@@ -56,7 +58,7 @@ Rails.application.routes.draw do
     get '/orders', to: 'orders#index'
     get '/orders/:id', to: 'orders#show'
     get '/orders/:id/edit', to: 'orders#edit'
-    patch '/orders/:id', to: 'orders#update'
-    delete '/orders/:id', to: 'orders#cancel'
+    patch '/orders/:id', to: 'orders#update', as: :update
+    patch '/orders/:id', to: 'orders#cancel'
   end
 end

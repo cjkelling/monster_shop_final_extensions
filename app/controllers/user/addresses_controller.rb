@@ -15,23 +15,24 @@ class User::AddressesController < ApplicationController
   end
 
   def update
-    @address = Address.find(params[:id])
-    if !@address.shipped_order?
-      flash[:notice] = 'Address is being shipped to. It cannot be updated at this time.'
-      redirect_to "/users/#{current_user.id}"
-    else
+    @address = Address.find(params[:format])
+    if @address.shipped_order.empty?
       @address.update(address_params)
+      redirect_to "/users/#{current_user.id}"
+      flash[:success] = "#{@address.address_nickname} has been updated"
+    else
+      flash[:notice] = 'Address is being used to ship an order. It cannot be updated at this time.'
       redirect_to "/users/#{current_user.id}"
     end
   end
 
   def destroy
     @address = Address.find(params[:id])
-    if !@address.shipped_order?
-      flash[:notice] = 'Address is being shipped to. It cannot be deleted at this time.'
+    if @address.shipped_order.empty?
+      @address.destroy
       redirect_to "/users/#{current_user.id}"
     else
-      @address.destroy
+      flash[:notice] = 'Address is being shipped to. It cannot be deleted at this time.'
       redirect_to "/users/#{current_user.id}"
     end
   end

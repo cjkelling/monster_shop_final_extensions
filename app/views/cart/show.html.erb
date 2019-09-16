@@ -45,15 +45,17 @@
 </table>
   <p>Total: <%= number_to_currency(cart.total) %></p>
   <p><%= link_to "Empty Cart", "/cart", method: :delete %></p>
-  <% if current_user %>
-    <p><%= link_to "Checkout", "/user/orders/new" %></p>
-  <% else %>
   <section id='visitor-checkout-message'>
-    <h4>You must <%= link_to "log in", '/login' %> or <%= link_to "register", '/register' %> in order to checkout</h4>
+    <% if !current_user %>
+      <h4>You must <%= link_to "Login", '/login' %> or <%= link_to "Register", '/register' %> in order to checkout</h4>
+    <% elsif current_user.addresses.empty?  %>
+      <h4>You must <%= link_to "Create an address", '/user/addresses/new' %> in order to checkout</h4>
+    <% else %>
+      <p><%= link_to "Checkout", "/user/orders/new" %></p>
+    <% end %>
   </section>
+  <% else %>
+    <h3 align= "center">Cart is currently empty</h3>
   <% end %>
-<% else %>
-  <h3 align= "center">Cart is currently empty</h3>
-<% end %>
 <table>
 </center>

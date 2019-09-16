@@ -17,10 +17,10 @@ class User::OrdersController < ApplicationController
       flash[:notice] = 'Please complete address form to create an order.'
       render :new
     end
-    end
+  end
 
   def show
-    @order = Order.find(params[:order_id])
+    @order = current_user.orders.find(params[:id])
   end
 
   def index
@@ -28,15 +28,27 @@ class User::OrdersController < ApplicationController
   end
 
   def cancel
-    order = Order.find(params[:order_id])
-    order.item_orders.each do |item_order|
+    @order = current_user.orders.find(params[:id])
+    @order.item_orders.each do |item_order|
       item_order[:status] = 'unfulfilled'
       item = Item.find(item_order.item_id)
       item.add(item_order.quantity)
     end
-    order.update(status: 3)
-    redirect_to '/profile'
-    flash[:success] = "Order #{order.id} has been cancelled"
+    @order.update(status: 3)
+    redirect_to '/user/orders'
+    flash[:success] = "Order #{@order.id} has been cancelled"
+  end
+
+  def edit
+    @user = current_user
+    @order = current_user.orders.find(params[:id])
+  end
+
+  def update
+    @order = current_user.orders.find(params[:id])
+    @order.update(order_params)
+    redirect_to "/user/orders/#{@order.id}"
+    flash[:success] = "Order #{@order.id} has been updated"
   end
 
   private

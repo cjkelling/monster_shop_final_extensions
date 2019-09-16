@@ -11,7 +11,7 @@ class Address < ApplicationRecord
   validates_length_of :zip, is: 5
   validates_numericality_of :zip
 
-  def shipped_order?
-    orders.shipped
+  def shipped_order
+    orders.select(status: 'shipped')
   end
 end

@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :require_user, only: [:show]
-  # before_action :cur_user, only: %i[edit password_edit update]
 
   def new
     @user = User.new
@@ -21,7 +20,7 @@ class UsersController < ApplicationController
 
   def show
     if current_user && current_admin?
-      @user = User.find(params[:user_id])
+      @user = current_user
     elsif current_user
       @user = current_user
     end
@@ -63,8 +62,4 @@ class UsersController < ApplicationController
   def address_params
     params.permit(:address, :city, :state, :zip, :address_nickname)
   end
-
-  # def cur_user
-  #   @user = current_user
-  # end
 end
