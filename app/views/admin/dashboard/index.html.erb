@@ -1,5 +1,6 @@
 <% @sorted_orders.each do |order| %>
   <section id="order-id-<%=order.id%>">
+    <h4><%= link_to "Placed by: #{order.user.name}", "/admin/users/#{order.user.id}", method: :get %></h4>
     <h4>Order: <%= order.id %></h4>
     <p>Date created: <%= order.created_at.strftime("%d %b %y") %></p>
     <p>Order Status: <%= order.status %></p>

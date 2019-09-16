@@ -31,7 +31,7 @@ describe "As a registered user" do
       click_link('Edit Address')
     end
 
-    expect(current_path).to eq(edit_address_path(@address_1))
+    expect(current_path).to eq("/user/addresses/#{@address_1.id}/edit")
 
     expect(find_field('Address nickname').value).to eq(@address_1.address_nickname)
     expect(find_field('Address').value).to eq(@address_1.address)
@@ -68,7 +68,7 @@ describe "As a registered user" do
 
     click_link('Add New Address')
 
-    expect(current_path).to eq('/addresses/new')
+    expect(current_path).to eq('/user/addresses/new')
 
     address_nickname = 'New Work'
     address = '123 Fir St'
