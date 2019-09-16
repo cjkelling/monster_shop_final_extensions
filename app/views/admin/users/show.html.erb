@@ -1,0 +1,16 @@
+<section class="header">
+  <h2><%= @user.name %></h2>
+  <h4><%= @user.email %></h4>
+</section>
+
+<section class='addresses'>
+  <h3><%= 'Saved Addresses:' %></h3>
+  <% @user.addresses.each do |a| %>
+    <section id= 'address-<%=a.id%>'>
+    <h3><%= a.address_nickname %></h3>
+    <%= a.address %>
+    <br><%= a.city %>
+    <br><%= a.state %>
+    <br><%= a.zip %>
+    <% end %>
+</section>
