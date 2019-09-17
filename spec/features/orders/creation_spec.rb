@@ -33,17 +33,17 @@ describe("Order Creation") do
     end
 
     it 'I can create a new order' do
-      choose("address_id")
+      choose 'order[address_id]'
 
       click_button "Create Order"
 
       new_order = Order.last
       expect(current_path).to eq("/user/orders")
 
-      visit "/orders/#{new_order.id}"
+      visit "/user/orders/#{new_order.id}"
 
       within '.shipping-address' do
-        expect(page).to have_content(@address.id)
+        expect(page).to have_content(@address.address_nickname)
       end
 
       within "#item-#{@paper.id}" do
@@ -80,18 +80,7 @@ describe("Order Creation") do
     end
 
     it 'i cant create order if info not filled out' do
-      name = ""
-      address = "123 Sesame St."
-      city = "NYC"
-      state = "New York"
-      zip = 10001
-
-      fill_in 'Address nickname', with: name
-      fill_in 'Address', with: address
-      fill_in 'City', with: city
-      fill_in 'State', with: state
-      fill_in 'Zip', with: zip
-
+      choose 'order[address_id]'
       click_button "Create Order"
 
       expect(page).to have_content("Please complete address form to create an order.")

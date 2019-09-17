@@ -78,18 +78,18 @@ describe 'User Registration' do
       fill_in 'Password confirmation', with: password_confirmation
 
       click_button 'Create User'
+
       expect(current_path).to eq('/users')
       expect(page).to have_content('Email has already been taken')
-      save_and_open_page
-      # expect(user_1).to eq(User.last)
-      # expect(find_field(:name).value).to eq(name)
-      expect(find_field(:address).value).to eq(address)
-      expect(find_field(:city).value).to eq(city)
-      expect(find_field(:state).value).to eq(state)
-      expect(find_field(:zip).value).to eq(zip.to_s)
-      expect(find_field(:email).value).to eq(nil)
-      expect(find_field(:password).value).to eq(nil)
-      expect(find_field(:password_confirmation).value).to eq(nil)
+      expect(user).to eq(User.last)
+      expect(find_field('Name').value).to eq(name)
+      # expect(find_field('Address').value).to eq(address)
+      # expect(find_field(:city).value).to eq(city)
+      # expect(find_field(:state).value).to eq(state)
+      # expect(find_field(:zip).value).to eq(zip.to_s)
+      expect(find_field('Email').value).to eq(email)
+      expect(find_field('Password').value).to eq(password)
+      expect(find_field('Password confirmation').value).to eq(password_confirmation)
     end
   end
 end

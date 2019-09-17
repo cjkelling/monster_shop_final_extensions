@@ -67,11 +67,11 @@ describe Merchant, type: :model do
 
       order_1 = @user.orders.create!(address_id: @address.id, status: 0)
       order_2 = @user.orders.create!(address_id: @address.id, status: 0)
-      item_order_1 = @order_1.item_orders.create!(item_id: @tire.id, quantity: 2, price: 100)
-      item_order_2 = @order_1.item_orders.create!(item_id: @paper.id, quantity: 2, price: 20)
-      item_order_3 = @order_1.item_orders.create!(item_id: @pencil.id, quantity: 3, price: 2)
-      item_order_4 = @order_2.item_orders.create!(item_id: @tire.id, quantity: 1, price: 100)
-      item_order_5 = @order_2.item_orders.create!(item_id: @pencil.id, quantity: 4, price: 2)
+      item_order_1 = order_1.item_orders.create!(item_id: @tire.id, quantity: 2, price: 100)
+      item_order_2 = order_1.item_orders.create!(item_id: @paper.id, quantity: 2, price: 20)
+      item_order_3 = order_1.item_orders.create!(item_id: @pencil.id, quantity: 3, price: 2)
+      item_order_4 = order_2.item_orders.create!(item_id: @tire.id, quantity: 1, price: 100)
+      item_order_5 = order_2.item_orders.create!(item_id: @pencil.id, quantity: 4, price: 2)
       actual_total_quantity_for_meg = @meg.get_individual_orders.map(&:total_quantity).sort
       actual_subtotal_for_meg = @meg.get_individual_orders.map(&:total_subtotal).sort
       actual_total_quantity_for_bike_shop = @bike_shop.get_individual_orders.map(&:total_quantity).sort

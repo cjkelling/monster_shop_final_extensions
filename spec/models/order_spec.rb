@@ -16,14 +16,14 @@ describe Order, type: :model do
     it 'grandtotal' do
       user = User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
       address = user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
-    
+
       meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80_203)
       brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80_210)
 
       tire = meg.items.create(name: 'Gatorskins', description: "They'll never pop!", price: 100, image: 'https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588', inventory: 12)
       pull_toy = brian.items.create(name: 'Pull Toy', description: 'Great pull toy!', price: 10, image: 'http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg', inventory: 32)
 
-      order_1 = user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17_033)
+      order_1 = user.orders.create!(address_id: address.id, status: 0)
 
       order_1.item_orders.create!(item: tire, price: tire.price, quantity: 2)
       order_1.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 3)
@@ -37,55 +37,40 @@ describe Order, type: :model do
       dog_bone = dog_shop.items.create(name: 'Dog Bone', description: "They'll love it!", price: 21, image: 'https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg', active?: false, inventory: 21)
       admin = User.create!(name: 'alec', email: '5@gmail.com', password: 'password', role: 3)
       admin_address = admin.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
-      user_1 = User.create!(name: 'alec', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204, email: '5@gmail.com', password: 'password')
-      user_2 = User.create!(name: 'josh', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204, email: '6@gmail.com', password: 'password')
-      order_2 = user_2.orders.create!(name: 'alec', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204, status: 0)
-      order_5 = user_2.orders.create!(name: 'alec', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204, status: 3)
-      order_3 = user_2.orders.create!(name: 'alec', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204, status: 1)
-      order_1 = user_1.orders.create!(name: 'alec', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204, status: 2)
-      order_4 = user_1.orders.create!(name: 'alec', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204, status: 0)
+      user = User.create!(name: 'alec', email: '56@gmail.com', password: 'password')
+      address = user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
+      user_2 = User.create!(name: 'alec', email: '576@gmail.com', password: 'password')
+      address_2 = user_2.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
+      order_1 = user.orders.create!(address_id: address.id, status: 0)
+      order_2 = user.orders.create!(address_id: address.id, status: 0)
 
-      expect(Order.all).to eq([order_2, order_5, order_3, order_1, order_4])
-      expect(Order.sort_orders).to eq([order_2, order_4, order_3, order_1, order_5])
+      expect(Order.all).to eq([order_1, order_2])
+      expect(Order.sort_orders).to eq([order_1, order_2])
     end
 
     it 'packaged' do
-      @regular_user = User.create!(name: 'alec',
-                                   address: '234 Main',
-                                   city: 'Denver',
-                                   state: 'CO',
-                                   zip: 80_204,
-                                   email: '890@gmail.com',
-                                   password: 'password')
-      @order_1 = @regular_user.orders.create(name: 'Sam Jackson', address: '234 Main St', city: 'Seattle', state: 'Washington', zip: 99_987, status: 0)
-      expect(@order_1.status).to eq('pending')
-      @order_1.packaged
-      expect(@order_1.status).to eq('packaged')
+      user = User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
+      address = user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
+      order_1 = user.orders.create!(address_id: address.id, status: 0)
+      expect(order_1.status).to eq('pending')
+      order_1.packaged
+      expect(order_1.status).to eq('packaged')
     end
 
     it 'shipped' do
-      @regular_user_2 = User.create!(name: 'alec',
-                                     address: '234 Main',
-                                     city: 'Denver',
-                                     state: 'CO',
-                                     zip: 80_204,
-                                     email: '899@gmail.com',
-                                     password: 'password')
-      @order_2 = @regular_user_2.orders.create(name: 'Sam Jackson', address: '234 Main St', city: 'Seattle', state: 'Washington', zip: 99_987, status: 1)
-      expect(@order_2.status).to eq('packaged')
-      @order_2.shipped
-      expect(@order_2.status).to eq('shipped')
+      user = User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
+      address = user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
+      order_2 = user.orders.create!(address_id: address.id, status: 0)
+      expect(order_2.status).to eq('pending')
+      order_2.shipped
+      expect(order_2.status).to eq('shipped')
     end
 
     it 'checks if all item orders of an item are fulfilled' do
-      @regular_user = User.create!(name: 'alec',
-                                   address: '234 Main',
-                                   city: 'Denver',
-                                   state: 'CO',
-                                   zip: 80_204,
-                                   email: '890@gmail.com',
-                                   password: 'password')
-      @order_1 = @regular_user.orders.create(name: 'Sam Jackson', address: '234 Main St', city: 'Seattle', state: 'Washington', zip: 99_987, status: 0)
+      user = User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
+      address = user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
+
+      @order_1 = user.orders.create!(address_id: address.id, status: 0)
       @order_1.packaged
       expect(@order_1.all_item_orders_fulfilled?).to eq(true)
     end
@@ -101,14 +86,9 @@ describe Order, type: :model do
       @pull_toy = @brian.items.create(name: 'Pull Toy', description: 'Great pull toy!', price: 10, image: 'http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg', inventory: 32)
       @pink_helmet = @meg.items.create(name: 'Pink Helmet', description: 'Very pink helmet!', price: 51, image: 'https://images-na.ssl-images-amazon.com/images/I/716FdxJKkjL._SX425_.jpg', inventory: 12)
       @dog_bone = @brian.items.create(name: 'Dog Bone', description: "They'll love it!", price: 21, image: 'https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg', active?: false, inventory: 21)
-      @regular_user = User.create!(name: 'alec',
-                                   address: '234 Main',
-                                   city: 'Denver',
-                                   state: 'CO',
-                                   zip: 80_204,
-                                   email: '5@gmail.com',
-                                   password: 'password')
-      @order_1 = @regular_user.orders.create(name: 'Sam Jackson', address: '234 Main St', city: 'Seattle', state: 'Washington', zip: 99_987, status: 0)
+      user = User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
+      address = user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
+      @order_1 = user.orders.create!(address_id: address.id, status: 0)
       @itemorder_2 = ItemOrder.create(order_id: @order_1.id, item_id: @paper.id, quantity: 1, price: 20, merchant_id: @bike_shop.id)
       @itemorder_3 = ItemOrder.create(order_id: @order_1.id, item_id: @pink_helmet.id, quantity: 3, price: 51, merchant_id: @meg.id)
       expect(@order_1.show_order(@meg.id)).to eq([@itemorder_3])

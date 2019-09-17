@@ -55,7 +55,7 @@ RSpec.describe("New Order Page") do
       visit "/cart"
       click_on "Checkout"
 
-      expect(page).to have_content('address_id')
+      choose 'order[address_id]'
       expect(page).to have_button("Create Order")
     end
   end
