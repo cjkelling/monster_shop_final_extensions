@@ -2,27 +2,21 @@ require 'rails_helper'
 
 describe Order, type: :model do
   describe 'validations' do
-    it { should validate_presence_of :name }
-    it { should validate_presence_of :address }
-    it { should validate_presence_of :city }
-    it { should validate_presence_of :state }
-    it { should validate_presence_of :zip }
+    it { should validate_presence_of :address_id }
   end
 
   describe 'relationships' do
     it { should have_many :item_orders }
     it { should have_many(:items).through(:item_orders) }
+    it { should belong_to :user }
+    it { should belong_to :address }
   end
 
   describe 'instance methods' do
     it 'grandtotal' do
-      user = User.create!(name: 'alec',
-                          address: '234 Main',
-                          city: 'Denver',
-                          state: 'CO',
-                          zip: 80_204,
-                          email: 'alec@gmail.com',
-                          password: 'password')
+      user = User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
+      address = user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
+    
       meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80_203)
       brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80_210)
 
@@ -41,7 +35,8 @@ describe Order, type: :model do
       dog_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80_210)
       pull_toy = dog_shop.items.create(name: 'Pull Toy', description: 'Great pull toy!', price: 10, image: 'http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg', inventory: 32)
       dog_bone = dog_shop.items.create(name: 'Dog Bone', description: "They'll love it!", price: 21, image: 'https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg', active?: false, inventory: 21)
-      admin = User.create(name: 'Christopher', address: '123 Oak Ave', city: 'Denver', state: 'CO', zip: 80_021, email: 'christopher@email.com', password: 'p@ssw0rd', role: 3)
+      admin = User.create!(name: 'alec', email: '5@gmail.com', password: 'password', role: 3)
+      admin_address = admin.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
       user_1 = User.create!(name: 'alec', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204, email: '5@gmail.com', password: 'password')
       user_2 = User.create!(name: 'josh', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204, email: '6@gmail.com', password: 'password')
       order_2 = user_2.orders.create!(name: 'alec', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204, status: 0)

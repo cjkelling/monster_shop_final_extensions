@@ -3,14 +3,9 @@ require 'rails_helper'
 describe("Order Creation") do
   describe "When I check out from my cart" do
     before(:each) do
-      @user = User.create!(  name: "alec",
-        address: "234 Main",
-        city: "Denver",
-        state: "CO",
-        zip: 80204,
-        email: "alec@gmail.com",
-        password: "password"
-      )
+      @user =  User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
+      @address_1 = @user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
+
       @mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
@@ -44,11 +39,11 @@ describe("Order Creation") do
       state = "New York"
       zip = 10001
 
-      fill_in :name, with: name
-      fill_in :address, with: address
-      fill_in :city, with: city
-      fill_in :state, with: state
-      fill_in :zip, with: zip
+      fill_in 'Address nickname', with: name
+      fill_in 'Address', with: address
+      fill_in 'City', with: city
+      fill_in 'State', with: state
+      fill_in 'Zip', with: zip
 
       click_button "Create Order"
 
@@ -105,11 +100,11 @@ describe("Order Creation") do
       state = "New York"
       zip = 10001
 
-      fill_in :name, with: name
-      fill_in :address, with: address
-      fill_in :city, with: city
-      fill_in :state, with: state
-      fill_in :zip, with: zip
+      fill_in 'Address nickname', with: name
+      fill_in 'Address', with: address
+      fill_in 'City', with: city
+      fill_in 'State', with: state
+      fill_in 'Zip', with: zip
 
       click_button "Create Order"
 

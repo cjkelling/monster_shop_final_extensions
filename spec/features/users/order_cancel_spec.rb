@@ -2,14 +2,8 @@ require 'rails_helper'
 
 describe "when regular user visits cart" do
   before :each do
-    @regular_user = User.create!(  name: "alec",
-      address: "234 Main",
-      city: "Denver",
-      state: "CO",
-      zip: 80204,
-      email: "5@gmail.com",
-      password: "password"
-    )
+    @regular_user = User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
+    @address = @regular_user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
     @meg = Merchant.create!(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
     @mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
     @tire = @meg.items.create!(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
@@ -30,7 +24,7 @@ describe "when regular user visits cart" do
   end
 
   it "I can cancel my orders if status is pending" do
-    visit '/profile'
+    visit "/users/#{@regular_user.id}"
     expect(page).to_not have_link("My Orders")
 
     visit cart_path
@@ -55,14 +49,14 @@ describe "when regular user visits cart" do
 
   end
   it "I cannot cancel my orders if status is shipped" do
-    @order_2 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 1)
-    @itemorder_4 = ItemOrder.create(order_id: @order_2.id, item_id: @tire.id, quantity: 1, price: 100, status: 1)
-    @order_3 = @regular_user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 2)
-    @itemorder_6 = ItemOrder.create(order_id: @order_3.id, item_id: @pencil.id, quantity: 100, price: 2, status: 1)
+    @order_1 = @regular_user.orders.create!(address_id: @address.id, status: 0)
+    @order_2 = @regular_user.orders.create!(address_id: @address.id, status: 2)
+    @item_order_1 = ItemOrder.create!(order: @order_1, item: @tire, price: @tire.price, quantity: 2)
+    @item_order_2 = ItemOrder.create!(order: @order_2, item: @tire, price: @tire.price, quantity: 2)
 
-    visit "/profile/orders/#{@order_3.id}"
+    visit "/user/orders/#{@order_2.id}"
     expect(page).to_not have_link("Cancel Order")
-    visit "/profile/orders/#{@order_2.id}"
+    visit "/user/orders/#{@order_1.id}"
     expect(page).to have_link("Cancel Order")
   end
 end
