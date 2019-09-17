@@ -47,7 +47,7 @@ describe "As a mechant admin" do
 
     fill_in 'Name', with: name
     fill_in 'Description', with: description
-    fill_in 'Image', with: image_url
+    fill_in 'Image', with: ''
     fill_in 'Price', with: price
     fill_in 'Inventory', with: inventory
     click_button 'Create Item'

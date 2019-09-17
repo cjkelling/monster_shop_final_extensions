@@ -36,6 +36,5 @@ describe "when regular user visits cart" do
     visit '/cart'
     expect(page).to have_content("Cart is currently empty")
     expect(page).to_not have_link("Checkout")
-
   end
 end

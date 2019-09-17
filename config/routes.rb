@@ -59,6 +59,6 @@ Rails.application.routes.draw do
     get '/orders/:id', to: 'orders#show'
     get '/orders/:id/edit', to: 'orders#edit'
     patch '/orders/:id', to: 'orders#update', as: :update
-    patch '/orders/:id', to: 'orders#cancel'
+    put '/orders/:id', to: 'orders#cancel'
   end
 end

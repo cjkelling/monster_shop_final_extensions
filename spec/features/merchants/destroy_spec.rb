@@ -55,9 +55,7 @@ RSpec.describe "As a visitor" do
       click_on "Add To Cart"
       visit "/cart"
       click_on "Checkout"
-
-      choose("address_id#{address.id}")
-      choose('Address')
+      choose 'order[address_id]'
       click_button "Create Order"
 
       visit "/merchants/#{meg.id}"

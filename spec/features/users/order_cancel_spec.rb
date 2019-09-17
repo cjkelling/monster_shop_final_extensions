@@ -24,23 +24,14 @@ describe "when regular user visits cart" do
   end
 
   it "I can cancel my orders if status is pending" do
-    visit "/users/#{@regular_user.id}"
-    expect(page).to_not have_link("My Orders")
-
-    visit cart_path
-    click_link "Checkout"
-    choose 'order[address_id]'
-    click_button "Create Order"
-
-    order_1 = Order.last
-    item_1 = order_1.items.last
-    item_order_1 = order_1.item_orders.last
+    order_1 = @regular_user.orders.create(address_id: @address.id, status: 0)
+    item_order_1 = ItemOrder.create(order_id: order_1.id, item_id: @tire.id, quantity: 2, price: 100)
     visit "/user/orders/#{order_1.id}"
     click_link "Cancel Order"
     expect(item_order_1.status).to eq("unfulfilled")
-    expect(current_path).to eq("/profile")
+    expect(current_path).to eq("/user/orders")
     expect(page).to have_content("Order #{order_1.id} has been cancelled")
-    visit "/profile/orders/#{order_1.id}"
+    visit "/user/orders/#{order_1.id}"
     expect(page).to have_content("Order status: cancelled")
 
   end
