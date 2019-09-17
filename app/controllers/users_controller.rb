@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @address = @user.addresses.new
   end
 
   def create
@@ -19,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    if current_user && current_admin?
+    if current_admin?
       @user = current_user
     elsif current_user
       @user = current_user
@@ -60,6 +61,6 @@ class UsersController < ApplicationController
   end
 
   def address_params
-    params.permit(:address, :city, :state, :zip, :address_nickname)
+    params.require(:addresses).permit(:address, :city, :state, :zip, :address_nickname)
   end
 end
