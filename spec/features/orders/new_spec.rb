@@ -1,7 +1,8 @@
 RSpec.describe("New Order Page") do
   describe "When I check out from my cart" do
     before(:each) do
-      @user = User.create(name: 'Christopher', address: '123 Oak Ave', city: 'Denver', state: 'CO', zip: 80021, email: 'christopher@email.com', password: 'p@ssw0rd', role: 0)
+      @user =  User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
+      @address = @user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
       @mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
@@ -54,11 +55,7 @@ RSpec.describe("New Order Page") do
       visit "/cart"
       click_on "Checkout"
 
-      expect(page).to have_field(:name)
-      expect(page).to have_field(:address)
-      expect(page).to have_field(:city)
-      expect(page).to have_field(:state)
-      expect(page).to have_field(:zip)
+      expect(page).to have_content('address_id')
       expect(page).to have_button("Create Order")
     end
   end

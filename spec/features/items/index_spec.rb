@@ -134,23 +134,23 @@ RSpec.describe 'Items Index Page' do
     end
 
     it 'I see quantity purchased statistics about the most and least popular active items ' do
-      order_1 = @user.orders.create(address_id: @user.id, status: 0)
-      order_2 = @user.orders.create(address_id: @user.id, status: 0)
-      order_3 = @user.orders.create(address_id: @user.id, status: 0)
-      ItemOrder.create(order_id: order_1.id, item_id: @paper.id, quantity: 2, price: 20)
-      ItemOrder.create(order_id: order_2.id, item_id: @pencil.id, quantity: 3, price: 2)
-      ItemOrder.create(order_id: order_3.id, item_id: @tire.id, quantity: 1, price: 100)
-      ItemOrder.create(order_id: order_2.id, item_id: @pencil.id, quantity: 4, price: 2)
+      order_1 = @user.orders.create!(address_id: @address.id, status: 0)
+      order_2 = @user.orders.create!(address_id: @address.id, status: 0)
+      order_3 = @user.orders.create!(address_id: @address.id, status: 0)
+      ItemOrder.create!(order_id: order_1.id, item_id: @paper.id, quantity: 2, price: 20)
+      ItemOrder.create!(order_id: order_2.id, item_id: @pencil.id, quantity: 3, price: 2)
+      ItemOrder.create!(order_id: order_3.id, item_id: @tire.id, quantity: 1, price: 100)
+      ItemOrder.create!(order_id: order_2.id, item_id: @pencil.id, quantity: 4, price: 2)
 
       visit '/items'
       within '#most-popular-items' do
         expect(page).to have_content('Most Popular Items:')
-        expect(page).to have_content("#{@pencil.name}: 72 purchased so far!\n#{@pink_helmet.name}: 8 purchased so far!\n#{@pull_toy.name}: 4 purchased so far!\n#{@helmet.name}: 3 purchased so far!\n#{@tire.name}: 2 purchased so far!")
+        expect(page).to have_content("#{@pencil.name}: 7 purchased so far!\n#{@paper.name}: 2 purchased so far!\n#{@tire.name}: 1 purchased so far!")
         expect(page).to_not have_content(@dog_bone.name.to_s)
       end
       within '#least-popular-items' do
         expect(page).to have_content('Least Popular Items:')
-        expect(page).to have_content("#{@paper.name}: 1 purchased so far!\n#{@tire.name}: 2 purchased so far!\n#{@helmet.name}: 3 purchased so far!\n#{@pull_toy.name}: 4 purchased so far!\n#{@pink_helmet.name}: 8 purchased so far!")
+        expect(page).to have_content("#{@tire.name}: 1 purchased so far!\n#{@paper.name}: 2 purchased so far!\n#{@pencil.name}: 7 purchased so far!")
         expect(page).to_not have_content(@dog_bone.name.to_s)
       end
     end

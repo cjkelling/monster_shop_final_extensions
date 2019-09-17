@@ -2,13 +2,15 @@ require 'rails_helper'
 
 describe "As a mechant admin" do
   before(:each) do
-    @bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 11234)
-    @paper = @bike_shop.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 3)
-    @tire = @bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
-    @user = User.create(name: "alec", address: "234 Main", city: "Denver", state: "CO", zip: 80204, email: "a@gmail.com", password: "password", role: 2, merchant_id: @bike_shop.id)
-    @order = @user.orders.create(name: "Sam Jackson", address: "234 Main St", city: "Seattle", state: "Washington", zip: 99987, status: 0)
-    ItemOrder.create(order_id: @order.id, item_id: @paper.id, quantity: 2, price: 20)
-    @merchant_admin = User.create(name: "alec", address: "234 Main", city: "Denver", state: "CO", zip: 80204, email: "alec@gmail.com", password: "password", role: 2, merchant_id: @bike_shop.id)
+    @bike_shop = Merchant.create!(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 11234)
+    @paper = @bike_shop.items.create!(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 3)
+    @tire = @bike_shop.items.create!(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+    @user = @bike_shop.users.create!(name: "alec", email: "a@gmail.com", password: "password")
+    @user_address = @user.addresses.create!(address_nickname: 'Work', address: "234 Main", city: "Denver", state: "CO", zip: 80204)
+    @order = @user.orders.create!(address_id: @user_address.id, status: 0)
+    ItemOrder.create!(order: @order, item: @paper, price: @paper.price, quantity: 2)
+    @merchant_admin = @bike_shop.users.create!(name: "alec", email: "1@gmail.com", password: "password", role: 2, merchant_id: @bike_shop.id)
+    @admin_address = @merchant_admin.addresses.create!(address_nickname: 'Work', address: "234 Main", city: "Denver", state: "CO", zip: 80204)
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_admin)
   end
 
