@@ -24,10 +24,10 @@ describe 'Visitor Cart Checkout' do
       expect(page).to_not have_link("Checkout")
 
       within '#visitor-checkout-message' do
-        expect(page).to have_content("You must log in or register in order to checkout")
-        expect(page).to have_link("log in")
-        expect(page).to have_link("register")
-        click_link("log in")
+        expect(page).to have_content("You must Login or Register in order to checkout")
+        expect(page).to have_link("Login")
+        expect(page).to have_link("Register")
+        click_link("Login")
       end
 
       expect(current_path).to eq('/login')
@@ -35,7 +35,7 @@ describe 'Visitor Cart Checkout' do
       visit "/cart"
 
       within '#visitor-checkout-message' do
-        click_link("register")
+        click_link("Register")
       end
 
       expect(current_path).to eq('/register')

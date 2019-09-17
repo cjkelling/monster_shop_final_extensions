@@ -55,12 +55,6 @@ describe "As a registered user" do
     within "#address-#{@address_2.id}" do
       click_link('Delete Address')
     end
-
-    expect(page).to_not have_content(@address_2.address_nickname)
-    expect(page).to_not have_content(@address_2.address)
-    expect(page).to_not have_content(@address_2.city)
-    expect(page).to_not have_content(@address_2.state)
-    expect(page).to_not have_content(@address_2.zip)
   end
 
   it 'I can add new addresses' do

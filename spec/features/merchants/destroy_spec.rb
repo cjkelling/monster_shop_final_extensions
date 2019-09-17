@@ -3,14 +3,9 @@ require 'rails_helper'
 RSpec.describe "As a visitor" do
   describe "When I visit a merchant show page" do
     before :each do
-      @user = User.create!(  name: "alec",
-        address: "234 Main",
-        city: "Denver",
-        state: "CO",
-        zip: 80204,
-        email: "alec@gmail.com",
-        password: "password"
-      )
+      @user =  User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
+      @address = @user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
+
     end
     it "I can delete a merchant" do
       bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 80203)
@@ -49,7 +44,6 @@ RSpec.describe "As a visitor" do
       tire = meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
       paper = mike.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 3)
       pencil = mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
-      pulltoy = brian.items.create(name: "Pulltoy", description: "It'll never fall apart!", price: 14, image: "https://www.valupets.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/l/a/large_rubber_dog_pull_toy.jpg", inventory: 7)
 
       visit "/items/#{paper.id}"
       click_on "Add To Cart"
@@ -61,14 +55,9 @@ RSpec.describe "As a visitor" do
       click_on "Add To Cart"
       visit "/cart"
       click_on "Checkout"
-
-      fill_in :name, with: @user.name
-      fill_in :address, with: @user.address
-      fill_in :city, with: @user.city
-      fill_in :state, with: @user.state
-      fill_in :zip, with: @user.zip
-
+      choose 'order[address_id]'
       click_button "Create Order"
+
       visit "/merchants/#{meg.id}"
       expect(page).to_not have_link("Delete Merchant")
     end

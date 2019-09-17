@@ -3,89 +3,75 @@ require 'rails_helper'
 RSpec.describe "User Profile" do
   describe "As a registered user" do
     before :each do
-      @user = User.create(name: 'Christopher', address: '123 Oak Ave', city: 'Denver', state: 'CO', zip: 80021, email: 'christopher@email.com', password: 'p@ssw0rd', role: 0)
+      @user =  User.create!(name: 'alec', email: '5@gmail.com', password: 'password')
+      @address = @user.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-      @user_2 = User.create(name: 'Christopher', address: '123 Oak Ave', city: 'Denver', state: 'CO', zip: 80021, email: 'ck@email.com', password: 'p@ssw0rd', role: 0)
+      @user_2 =  User.create!(name: 'alec', email: '4@gmail.com', password: 'password')
+      @address_2 = @user_2.addresses.create!(address_nickname: 'Home', address: '234 Main', city: 'Denver', state: 'CO', zip: 80_204)
     end
 
-    xit 'I visit my profile page and see all my profile data except my password. I see a link to edit my profile data.' do
-      visit '/profile'
+    it 'I visit my profile page and see all my profile data except my password. I see a link to edit my profile data.' do
+      visit "/users/#{@user.id}"
 
       expect(page).to have_content(@user.name)
-      expect(page).to have_content(@user.address)
-      expect(page).to have_content(@user.city)
-      expect(page).to have_content(@user.state)
-      expect(page).to have_content(@user.zip)
+      expect(page).to have_content(@address.address_nickname)
+      expect(page).to have_content(@address.address)
+      expect(page).to have_content(@address.city)
+      expect(page).to have_content(@address.state)
+      expect(page).to have_content(@address.zip)
       expect(page).to have_content(@user.email)
       expect(page).to_not have_content(@user.password)
       expect(page).to have_link('Edit Profile')
     end
 
-    xit 'I click the Edit Profile link. I see a prepopulate form with my current info. I submit the form and am returned to my profile page with my new info.' do
-      visit '/profile'
+    it 'I click the Edit Profile link. I see a prepopulate form with my current info. I submit the form and am returned to my profile page with my new info.' do
+      visit "/users/#{@user.id}"
       click_link 'Edit Profile'
-      expect(current_path).to eq('/profile/edit')
-
-      expect(find_field(:name).value).to eq(@user.name)
-      expect(find_field(:address).value).to eq(@user.address)
-      expect(find_field(:city).value).to eq(@user.city)
-      expect(find_field(:state).value).to eq(@user.state)
-      expect(find_field(:zip).value).to eq(@user.zip.to_s)
-      expect(find_field(:email).value).to eq(@user.email)
+      expect(current_path).to eq("/users/#{@user.id}/edit")
+      expect(find_field('Name').value).to eq(@user.name)
+      expect(find_field('Email').value).to eq(@user.email)
 
       name = 'Christopher'
-      address = '456 1st St'
-      city = 'Northglenn'
-      state = 'CO'
-      zip = 80233
       email = 'christopher@email.com'
 
       fill_in "Name", with: name
       fill_in "Email", with: email
-      fill_in "Address", with: address
-      fill_in "City", with: city
-      fill_in "State", with: state
-      fill_in "Zip", with: zip
-      click_button 'Update Profile'
+      click_button 'Update User'
 
-      expect(current_path).to eq('/profile')
+      expect(current_path).to eq("/users/#{@user.id}")
 
       expect(page).to have_content('Your profile has been updated')
       expect(page).to have_content(name)
-      expect(page).to have_content(address)
-      expect(page).to have_content(city)
-      expect(page).to have_content(state)
-      expect(page).to have_content(zip)
       expect(page).to have_content(email)
     end
 
-    xit 'I see a link to edit my password. I fill out the form and am returned to my profile. I see a flash message confirming the update.' do
-      visit '/profile'
+    it 'I see a link to edit my password. I fill out the form and am returned to my profile. I see a flash message confirming the update.' do
+      visit "/users/#{@user.id}"
       click_link 'Edit Password'
 
-      expect(current_path).to eq('/profile/password_edit')
+      expect(current_path).to eq("/users/#{@user.id}/password_edit")
 
       password = 'password'
       password_confirmation = 'password'
 
-      fill_in :password, with: password
-      fill_in :password_confirmation, with: password_confirmation
+      fill_in 'Password', with: password
+      fill_in 'Password confirmation', with: password_confirmation
 
-      click_button 'Submit'
+      click_button 'Update User'
 
-      expect(current_path).to eq('/profile')
+      expect(current_path).to eq("/users/#{@user.id}")
       expect(page).to have_content('Your password has been updated')
     end
 
-    xit 'I must use a unique email address when updating my profile' do
-      visit '/profile/edit'
+    it 'I must use a unique email address when updating my profile' do
+      visit "/users/#{@user.id}/edit"
 
-      email = 'ck@email.com'
+      email = '4@gmail.com'
 
       fill_in "Email", with: email
-      click_button 'Update Profile'
+      click_button 'Update User'
 
-      expect(current_path).to eq('/profile/edit')
+      expect(current_path).to eq("/users/#{@user.id}/edit")
       expect(page).to have_content("Email has already been taken")
     end
   end

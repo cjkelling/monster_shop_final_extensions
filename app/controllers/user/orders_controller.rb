@@ -13,9 +13,9 @@ class User::OrdersController < ApplicationController
       session.delete(:cart)
       flash[:success] = 'Order Created!'
       redirect_to '/user/orders'
-    else
-      flash[:notice] = 'Please complete address form to create an order.'
-      render :new
+    # else
+    #   flash[:notice] = 'Please complete address form to create an order.'
+    #   render :new
     end
   end
 

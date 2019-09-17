@@ -5,15 +5,8 @@ describe "As a mechant admin" do
     @bike_shop = Merchant.create!(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 11234)
     @tire = @bike_shop.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
     @dog_bone = @bike_shop.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
-    @merchant_admin = @bike_shop.users.create!(  name: "alec",
-                        address: "234 Main",
-                        city: "Denver",
-                        state: "CO",
-                        zip: 80204,
-                        email: "alec@gmail.com",
-                        password: "password",
-                        role: 2,
-                        merchant_id: @bike_shop.id)
+    @merchant_admin = @bike_shop.users.create!(name: "alec", email: "alec@gmail.com", password: "password", role: 2, merchant_id: @bike_shop.id)
+    @admin_address = @merchant_admin.addresses.create!(address_nickname: 'Work', address: "234 Main", city: "Denver", state: "CO", zip: 80204)
     visit '/login'
     fill_in :email, with: @merchant_admin.email
     fill_in :password, with: @merchant_admin.password
