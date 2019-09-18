@@ -23,8 +23,12 @@ class Merchant < ApplicationRecord
   end
 
   def distinct_cities
-    item_orders.distinct.joins(:order.join(:address)).pluck(:city)
-    # addresses.distinct.joins(:orders).pluck(:city)
+    #merchants have access to item_orders, which have access
+    #to orders, which have access to addresses, which is where
+    #the city information is stored.
+    order_ids = item_orders.joins(:order).pluck(:order_id)
+    # .joins(:address).pluck(:city)
+    # SELECT city FROM addresses JOIN orders ON order_id JOIN item_orders ON merchant.id
   end
 
   def get_individual_orders

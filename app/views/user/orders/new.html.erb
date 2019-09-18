@@ -25,7 +25,6 @@
   <%= form_for current_user.orders.new, :url => user_orders_path(current_user.orders.new), :method => :post do |f| %>
     <% current_user.addresses.each do |address| %>
       <p><%= f.radio_button :address_id, address.id  %>
-      <p><%= f.label :address_id %>
       <%= f.label :address_nickname, address.address_nickname  %></p>
       <p><%= f.label :address, address.address %></p>
       <p><%= f.label :city, address.city %>
